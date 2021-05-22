@@ -1,195 +1,154 @@
 
-
 /**
- * Title: DungeonCharacter.java
+ * Abstract Base class for inheritance hierarchy for a role playing game
  *
- * Description: Abstract Base class for inheritance hierarchy for a
- *              role playing game
- *
- *  class variables (all will be directly accessible from derived classes):
- *    name (name of character)
- *    hitPoints (points of damage a character can take before killed)
- *    attackSpeed (how fast the character can attack)
- *    chanceToHit (chance an attack will strike the opponent)
- *    damageMin, damageMax (range of damage the character can inflict on
- *     opponent)
- *
- *  class methods (all are directly accessible by derived classes):
- *    DungeonCharacter(String name, int hitPoints, int attackSpeed,
-				     double chanceToHit, int damageMin, int damageMax)
-	  public String getName()
-	  public int getHitPoints()
-	  public int getAttackSpeed()
-	  public void addHitPoints(int hitPoints)
-	  public void subtractHitPoints(int hitPoints) -- this method will be
-	    overridden
-	  public boolean isAlive()
-	  public void attack(DungeonCharacter opponent) -- this method will be
-	    overridden
- *
- * Copyright:    Copyright (c) 2001
- * Company:
- * @author
- * @version 1.0
+ * @author Original Authors
+ * @author Tyler Rose
  */
+public abstract class DungeonCharacter implements Comparable {
 
-public abstract class DungeonCharacter implements Comparable
-{
+    protected String name;
+    protected int hitPoints;
+    protected int attackSpeed;
+    protected double chanceToHit;
+    protected int damageMin, damageMax;
 
-	protected String name;
-	protected int hitPoints;
-	protected int attackSpeed;
-	protected double chanceToHit;
-	protected int damageMin, damageMax;
+    /**
+     * Returns 1
+     *
+     * @param o the object to compare with
+     * @return int the value 1
+     */
+    @Override
+    public int compareTo(Object o) {
+        return 1;
+    }
 
-	public int compareTo(Object o)
-	{
-		return 1;
-	}
+    /**
+     * Full constructor to initialize a dungeon character
+     *
+     * @param name the character name
+     * @param hitPoints the number of hit points the character has
+     * @param attackSpeed the character's attack speed
+     * @param chanceToHit the character's chance to land a hit
+     * @param damageMin the character's minimum damage
+     * @param damageMax the character's maximum damage
+     */
+    public DungeonCharacter(String name, int hitPoints, int attackSpeed,
+            double chanceToHit, int damageMin, int damageMax) {
 
-//-----------------------------------------------------------------
-//explicit constructor to initialize instance variables -- it is called
-// by derived classes
-	public DungeonCharacter(String name, int hitPoints, int attackSpeed,
-				     double chanceToHit, int damageMin, int damageMax)
-	{
+        this.name = name;
+        this.hitPoints = hitPoints;
+        this.attackSpeed = attackSpeed;
+        this.chanceToHit = chanceToHit;
+        this.damageMin = damageMin;
+        this.damageMax = damageMax;
 
-		this.name = name;
-		this.hitPoints = hitPoints;
-		this.attackSpeed = attackSpeed;
-		this.chanceToHit = chanceToHit;
-		this.damageMin = damageMin;
-		this.damageMax = damageMax;
+    }
 
-	}//end constructor
+    /**
+     * Get the name of a DungeonCharacter object
+     *
+     * @return String the character's name
+     */
+    public String getName() {
+        return name;
+    }
 
-//-----------------------------------------------------------------
-	public String getName()
-	{
-		return name;
-	}//end getName
+    /**
+     * Get the hit points of a Dungeon character object
+     *
+     * @return int the character's hit points
+     */
+    public int getHitPoints() {
+        return hitPoints;
+    }
 
-//-----------------------------------------------------------------
-	public int getHitPoints()
-	{
-		return hitPoints;
-	}//end getHitPoints
-//-----------------------------------------------------------------
-	public int getAttackSpeed()
-	{
-		return attackSpeed;
-	}//end getAttackSpeed
+    /**
+     * Get the attack speed of a DungeonCharacter object
+     *
+     * @return int the character's attack speed
+     */
+    public int getAttackSpeed() {
+        return attackSpeed;
+    }
 
+    /**
+     * addHitPoints is used to increment the hitpoints a dungeon character has
+     *
+     * @param hitPoints the number of hit points to add
+     */
+    public void addHitPoints(int hitPoints) {
+        if (hitPoints <= 0) {
+            System.out.println("Hitpoint amount must be positive.");
+        } else {
+            this.hitPoints += hitPoints;
+            //System.out.println("Remaining Hit Points: " + hitPoints);
 
-/*-------------------------------------------------------
-addHitPoints is used to increment the hitpoints a dungeon character has
+        }
+    }
 
-Receives: number of hit points to add
-Returns: nothing
+    /**
+     * subtractHitPoints is used to decrement the hitpoints a dungeon character
+     * has. It also reports the damage and remaining hit points
+     *
+     * @param hitPoints the number of hit points to subtract
+     */
+    public void subtractHitPoints(int hitPoints) {
+        if (hitPoints < 0) {
+            System.out.println("Hitpoint amount must be positive.");
+        } else if (hitPoints > 0) {
+            this.hitPoints -= hitPoints;
+            if (this.hitPoints < 0) {
+                this.hitPoints = 0;
+            }
+            System.out.println(getName() + " hit "
+                    + " for <" + hitPoints + "> points damage.");
+            System.out.println(getName() + " now has "
+                    + getHitPoints() + " hit points remaining.");
+            System.out.println();
+        }
 
-This method calls: nothing
-This method is called by: heal method of monsters and Sorceress
----------------------------------------------------------*/
-	public void addHitPoints(int hitPoints)
-	{
-		if (hitPoints <=0)
-			System.out.println("Hitpoint amount must be positive.");
-		else
-		{
-			this.hitPoints += hitPoints;
-			//System.out.println("Remaining Hit Points: " + hitPoints);
+        if (this.hitPoints == 0) {
+            System.out.println(name + " has been killed :-(");
+        }
 
-		}
-	}//end addHitPoints method
+    }
 
-/*-------------------------------------------------------
-subtractHitPoints is used to decrement the hitpoints a dungeon character has.
-It also reports the damage and remaining hit points (these things could be
-done in separate methods to make code more modular ;-)
+    /**
+     * isAlive is used to see if a character is still alive by checking hit
+     * points
+     *
+     * @return boolean True if the DungeonCharacter is alive, False if not
+     */
+    public boolean isAlive() {
+        return (hitPoints > 0);
+    }
 
-Receives: number of hit points to subtract
-Returns: nothing
+    /**
+     * attack allows character to attempt attack on opponent. First, chance to
+     * hit is considered. If a hit can occur, then the damage is calculated
+     * based on character's damage range. This damage is then applied to the
+     * opponenet.
+     *
+     * @param opponent the DungeonCharacter object that is being attacked
+     */
+    public void attack(DungeonCharacter opponent) {
+        boolean canAttack;
+        int damage;
 
-This method calls: nothing
-This method is called by: overridden versions in Hero and Monster
----------------------------------------------------------*/
-	public void subtractHitPoints(int hitPoints)
-	{
-		if (hitPoints <0)
-			System.out.println("Hitpoint amount must be positive.");
-		else if (hitPoints >0)
-		{
-			this.hitPoints -= hitPoints;
-			if (this.hitPoints < 0)
-				this.hitPoints = 0;
-			System.out.println(getName() + " hit " +
-								" for <" + hitPoints + "> points damage.");
-			System.out.println(getName() + " now has " +
-								getHitPoints() + " hit points remaining.");
-			System.out.println();
-		}//end else if
+        canAttack = Math.random() <= chanceToHit;
+        //If the stat 'chanceToHit' was greater than a randomly generated number the hit damages the opponent
+        if (canAttack) {
+            damage = (int) (Math.random() * (damageMax - damageMin + 1)) + damageMin;
+            opponent.subtractHitPoints(damage);
 
-		if (this.hitPoints == 0)
-			System.out.println(name + " has been killed :-(");
+            System.out.println();
+        } else {
 
+            System.out.println(getName() + "'s attack on " + opponent.getName() + " failed!");
+            System.out.println();
+        }
 
-	}//end method
-
-/*-------------------------------------------------------
-isAlive is used to see if a character is still alive by checking hit points
-
-Receives: nothing
-Returns: true is hero is alive, false otherwise
-
-This method calls: nothing
-This method is called by: unknown (intended for external use)
----------------------------------------------------------*/
-    public boolean isAlive()
-	{
-	  return (hitPoints > 0);
-	}//end isAlive method
-
-/*-------------------------------------------------------
-attack allows character to attempt attack on opponent.  First, chance to hit
-is considered.  If a hit can occur, then the damage is calculated based on
-character's damage range.  This damage is then applied to the opponenet.
-
-Receives: opponent being attacked
-Returns: nothing
-
-This method calls: Math.random(), subtractHitPoints()
-This method is called by: overridden versions of the method in monster and
-hero classes and externally
----------------------------------------------------------*/
-	public void attack(DungeonCharacter opponent)
-	{
-		boolean canAttack;
-		int damage;
-
-		canAttack = Math.random() <= chanceToHit;
-
-		if (canAttack)
-		{
-			damage = (int)(Math.random() * (damageMax - damageMin + 1))
-						+ damageMin ;
-			opponent.subtractHitPoints(damage);
-
-
-
-			System.out.println();
-		}//end if can attack
-		else
-		{
-
-			System.out.println(getName() + "'s attack on " + opponent.getName() +
-								" failed!");
-			System.out.println();
-		}//end else
-
-	}//end attack method
-
-//-----------------------------------------------------------------
-
-
-
-}//end class Character
+    }
+}
