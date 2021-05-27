@@ -11,8 +11,8 @@ public class Warrior extends Hero {
      * Default constructor for a warrior object, calls superclass to initiate
      * values
      */
-    public Warrior() {
-        super("Warrior", 125, 4, .8, 35, 60, .2);
+    public Warrior(String name) {
+        super(name, 125, 4, .8, 35, 60, .2);
     }
 
     public void crushingBlow(DungeonCharacter opponent) {

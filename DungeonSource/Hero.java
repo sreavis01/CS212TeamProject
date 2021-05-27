@@ -1,8 +1,10 @@
 
+import java.util.Scanner;
+
 /**
- * Abstract base class for a hierarchy of heroes.  It is derived
- *  from DungeonCharacter.  A Hero has battle choices: regular attack and a
- *  special skill which is defined by the classes derived from Hero.
+ * Abstract base class for a hierarchy of heroes. It is derived from
+ * DungeonCharacter. A Hero has battle choices: regular attack and a special
+ * skill which is defined by the classes derived from Hero.
  *
  * @author Original Authors
  * @author Tyler Rose
@@ -29,15 +31,6 @@ public abstract class Hero extends DungeonCharacter {
             double chanceToBlock) {
         super(name, hitPoints, attackSpeed, chanceToHit, damageMin, damageMax);
         this.chanceToBlock = chanceToBlock;
-        readName();
-    }
-
-    /**
-     * readName obtains a name for the hero from the user
-     */
-    public void readName() {
-        System.out.print("Enter character name: ");
-        name = Keyboard.readString();
     }
 
     /**

@@ -11,8 +11,8 @@ public class Thief extends Hero {
      * Default constructor for a thief object, calls superclass to initiate
      * values
      */
-    public Thief() {
-        super("Thief", 75, 6, .8, 20, 40, .5);
+    public Thief(String name) {
+        super(name, 75, 6, .8, 20, 40, .5);
     }
 
     /**

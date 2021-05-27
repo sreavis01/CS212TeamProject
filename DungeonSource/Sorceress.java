@@ -14,8 +14,8 @@ public class Sorceress extends Hero {
      * Default constructor for a sorceress object, calls superclass to initiate
      * values
      */
-    public Sorceress() {
-        super("Sorceress", 75, 5, .7, 25, 50, .3);
+    public Sorceress(String name) {
+        super(name, 75, 5, .7, 25, 50, .3);
 
     }
 

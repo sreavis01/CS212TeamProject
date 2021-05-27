@@ -43,7 +43,8 @@ public class Dungeon {
      */
     public static Hero chooseHero() {
         int choice;
-        Hero theHero;
+        System.out.println("Enter your Character's name:");
+        String name = Keyboard.readString();
 
         System.out.println("Choose a hero:\n"
                 + "1. Warrior\n"
@@ -53,17 +54,17 @@ public class Dungeon {
 
         switch (choice) {
             case 1:
-                return new Warrior();
+                return new Warrior(name);
 
             case 2:
-                return new Sorceress();
+                return new Sorceress(name);
 
             case 3:
-                return new Thief();
+                return new Thief(name);
 
             default:
                 System.out.println("invalid choice, returning Thief");
-                return new Thief();
+                return new Thief(name);
         }//end switch
     }//end chooseHero method
 
@@ -90,7 +91,7 @@ public class Dungeon {
                 return new Skeleton();
 
             default:
-                System.out.println("invalid choice, returning Skeleton");
+                System.out.println("Invalid choice, returning Skeleton");
                 return new Skeleton();
         }
     }
