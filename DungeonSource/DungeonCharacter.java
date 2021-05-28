@@ -1,10 +1,14 @@
+
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  * Abstract Base class for inheritance hierarchy for a role playing game
  *
  * @author Original Authors
  * @author Tyler Rose
  */
-public abstract class DungeonCharacter {
+public abstract class DungeonCharacter implements Observer {
 
     protected String name;
     protected int hitPoints;
@@ -75,6 +79,7 @@ public abstract class DungeonCharacter {
 
         }
     }
+
     /**
      * This method checks conditions for if the monster heals. If successful,
      * heath is added.
@@ -104,20 +109,11 @@ public abstract class DungeonCharacter {
     public void subtractHitPoints(int hitPoints) {
         if (hitPoints < 0) {
             System.out.println("Hitpoint amount must be positive.");
-        } else if (hitPoints > 0) {
+        } else {
             this.hitPoints -= hitPoints;
             if (this.hitPoints < 0) {
                 this.hitPoints = 0;
             }
-            System.out.println(getName() + " hit "
-                    + " for <" + hitPoints + "> points damage.");
-            System.out.println(getName() + " now has "
-                    + getHitPoints() + " hit points remaining.");
-            System.out.println();
-        }
-
-        if (this.hitPoints == 0) {
-            System.out.println(name + " has been killed :-(");
         }
 
     }
@@ -157,6 +153,23 @@ public abstract class DungeonCharacter {
             System.out.println();
         }
     }
-    
+
     abstract void battleChoices(DungeonCharacter opponent);
+
+    @Override
+    public final void update(Observable o, Object arg) {
+        if (o instanceof HealthObservable) {
+
+            if (this.hitPoints == 0) {
+                System.out.println(name + " has been killed :-(");
+            } else {
+                System.out.println(name + " knows about: ");
+                System.out.println(getName() + " hit "
+                        + " for <" + hitPoints + "> points damage.");
+                System.out.println(getName() + " now has "
+                        + getHitPoints() + " hit points remaining.");
+                System.out.println();
+            }
+        }
+    }
 }
