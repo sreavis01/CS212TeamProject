@@ -1,22 +1,26 @@
-
 /**
  * Concrete Sorceress class that holds represents a sorceress Hero
  *
  * @author Original Authors
  * @author Tyler Rose
  */
-public class Sorceress extends Hero {
+public class Sorceress extends DungeonCharacter {
 
     public final int MIN_ADD = 25;
     public final int MAX_ADD = 50;
+    public final double chanceToHeal = 1;
+    
+    protected double chanceToBlock;
+    protected int numTurns;
 
     /**
      * Default constructor for a sorceress object, calls superclass to initiate
      * values
      */
     public Sorceress(String name) {
-        super(name, 75, 5, .7, 25, 50, .3);
-
+        super(name, 75, 5, .7, 25, 50);
+        
+        this.chanceToBlock = .3;
     }
 
     /**
@@ -24,15 +28,7 @@ public class Sorceress extends Hero {
      *
      */
     public void increaseHitPoints() {
-        int hPoints;
-
-        hPoints = (int) (Math.random() * (MAX_ADD - MIN_ADD + 1)) + MIN_ADD;
-        addHitPoints(hPoints);
-        System.out.println(name + " added [" + hPoints + "] points.\n"
-                + "Total hit points remaining are: "
-                + hitPoints);
-        System.out.println();
-
+        super.heal(chanceToHeal, MIN_ADD, MAX_ADD);
     }
 
     /**
@@ -54,8 +50,15 @@ public class Sorceress extends Hero {
      * @param opponent the opponent the sorceress is attacking
      */
     public void battleChoices(DungeonCharacter opponent) {
-        super.battleChoices(opponent);
+    	
         int choice;
+        int numTurns = attackSpeed / opponent.getAttackSpeed();
+
+        if (numTurns == 0) {
+            numTurns++;
+        }
+
+        System.out.println("Number of turns this round is: " + numTurns);
 
         do {
             System.out.println("1. Attack Opponent");

@@ -1,4 +1,3 @@
-
 /**
  * This class is the driver file for the Heroes and Monsters project. It will
  * do the following:
@@ -22,12 +21,17 @@ public class Dungeon {
      */
     public static void main(String[] args) {
 
-        Hero theHero;
-        Monster theMonster;
+        DungeonCharacter theHero;
+        DungeonCharacter theMonster;
+        
+        
+        Factory factory = new Factory();
+        AbstractFactory heroFactory = factory.createFactory("Hero");
+        AbstractFactory monsterFactory = factory.createFactory("");
 
         do {
-            theHero = chooseHero();
-            theMonster = generateMonster();
+            theHero = chooseHero(heroFactory);
+            theMonster = generateMonster(monsterFactory);
             battle(theHero, theMonster);
 
         } while (playAgain());
@@ -41,7 +45,7 @@ public class Dungeon {
      *
      * @return Hero the Hero object of the chosen class
      */
-    public static Hero chooseHero() {
+    public static DungeonCharacter chooseHero(AbstractFactory heroFactory) {
         int choice;
         System.out.println("Enter your Character's name:");
         String name = Keyboard.readString();
@@ -54,17 +58,17 @@ public class Dungeon {
 
         switch (choice) {
             case 1:
-                return new Warrior(name);
+                return heroFactory.createCharacter("warrior", name);
 
             case 2:
-                return new Sorceress(name);
+                return heroFactory.createCharacter("sorceress", name);
 
             case 3:
-                return new Thief(name);
+                return heroFactory.createCharacter("thief", name);
 
             default:
                 System.out.println("invalid choice, returning Thief");
-                return new Thief(name);
+                return heroFactory.createCharacter("thief", name);
         }//end switch
     }//end chooseHero method
 
@@ -73,22 +77,22 @@ public class Dungeon {
      * generateMonster randomly selects a Monster and returns it. It utilizes a
      * polymorphic reference (Monster) to accomplish this task.
      *
-     * @return Monster the Montster object that was generated
+     * @return Monster the Monster object that was generated
      */
-    public static Monster generateMonster() {
+    public static DungeonCharacter generateMonster(AbstractFactory monsterFactory) {
         int choice;
 
         choice = (int) (Math.random() * 3) + 1;
 
         switch (choice) {
             case 1:
-                return new Ogre();
+                return monsterFactory.createCharacter("ogre", null);
 
             case 2:
-                return new Gremlin();
+                return monsterFactory.createCharacter("Gremlin", null);
 
             case 3:
-                return new Skeleton();
+                return monsterFactory.createCharacter("skeleton", null);
 
             default:
                 System.out.println("Invalid choice, returning Skeleton");
@@ -120,7 +124,7 @@ public class Dungeon {
      * @param theHero the hero that is being used in the battle
      * @param theMonster the monster that is being used in the battle
      */
-    public static void battle(Hero theHero, Monster theMonster) {
+    public static void battle(DungeonCharacter theHero, DungeonCharacter theMonster) {
         char pause = 'p';
         System.out.println(theHero.getName() + " battles "
                 + theMonster.getName());

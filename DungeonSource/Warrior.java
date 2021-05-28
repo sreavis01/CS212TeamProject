@@ -1,18 +1,21 @@
-
 /**
  * Concrete Warrior class that holds represents a warrior Hero
  *
  * @author Original Authors
  * @author Tyler Rose
  */
-public class Warrior extends Hero {
+public class Warrior extends DungeonCharacter {
 
+    protected double chanceToBlock;
+    protected int numTurns;
     /**
      * Default constructor for a warrior object, calls superclass to initiate
      * values
      */
     public Warrior(String name) {
-        super(name, 125, 4, .8, 35, 60, .2);
+        super(name, 125, 4, .8, 35, 60);
+        
+        this.chanceToBlock = .2;
     }
 
     public void crushingBlow(DungeonCharacter opponent) {
@@ -46,8 +49,15 @@ public class Warrior extends Hero {
      * @param opponent the opponent the warrior is attacking
      */
     public void battleChoices(DungeonCharacter opponent) {
+    	
         int choice;
-        super.battleChoices(opponent);
+        int numTurns = attackSpeed / opponent.getAttackSpeed();
+
+        if (numTurns == 0) {
+            numTurns++;
+        }
+
+        System.out.println("Number of turns this round is: " + numTurns);
 
         do {
             System.out.println("1. Attack Opponent");

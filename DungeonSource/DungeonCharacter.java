@@ -1,28 +1,16 @@
-
 /**
  * Abstract Base class for inheritance hierarchy for a role playing game
  *
  * @author Original Authors
  * @author Tyler Rose
  */
-public abstract class DungeonCharacter implements Comparable {
+public abstract class DungeonCharacter {
 
     protected String name;
     protected int hitPoints;
     protected int attackSpeed;
     protected double chanceToHit;
     protected int damageMin, damageMax;
-
-    /**
-     * Returns 1
-     *
-     * @param o the object to compare with
-     * @return int the value 1
-     */
-    @Override
-    public int compareTo(Object o) {
-        return 1;
-    }
 
     /**
      * Full constructor to initialize a dungeon character
@@ -87,6 +75,25 @@ public abstract class DungeonCharacter implements Comparable {
 
         }
     }
+    /**
+     * This method checks conditions for if the monster heals. If successful,
+     * heath is added.
+     *
+     */
+    public void heal(double chanceToHeal, int minHeal, int maxHeal) {
+        boolean canHeal;
+        int healPoints;
+
+        canHeal = (Math.random() <= chanceToHeal) && (hitPoints > 0);
+
+        if (canHeal) {
+            healPoints = (int) (Math.random() * (maxHeal - minHeal + 1)) + minHeal;
+            addHitPoints(healPoints);
+            System.out.println(name + " healed for " + healPoints + " points.\n"
+                    + "Total hit points remaining are: " + hitPoints);
+            System.out.println();
+        }
+    }
 
     /**
      * subtractHitPoints is used to decrement the hitpoints a dungeon character
@@ -149,6 +156,7 @@ public abstract class DungeonCharacter implements Comparable {
             System.out.println(getName() + "'s attack on " + opponent.getName() + " failed!");
             System.out.println();
         }
-
     }
+    
+    abstract void battleChoices(DungeonCharacter opponent);
 }

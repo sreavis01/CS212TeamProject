@@ -1,18 +1,21 @@
-
 /**
  * Concrete Thief class that holds represents a thief Hero
  *
  * @author Original Authors
  * @author Tyler Rose
  */
-public class Thief extends Hero {
-
+public class Thief extends DungeonCharacter {
+	
+    protected double chanceToBlock;
+    protected int numTurns;
     /**
      * Default constructor for a thief object, calls superclass to initiate
      * values
      */
     public Thief(String name) {
-        super(name, 75, 6, .8, 20, 40, .5);
+        super(name, 75, 6, .8, 20, 40);
+        
+        this.chanceToBlock = .5;
     }
 
     /**
@@ -41,8 +44,14 @@ public class Thief extends Hero {
      * @param opponent the opponent the thief is attacking
      */
     public void battleChoices(DungeonCharacter opponent) {
-        super.battleChoices(opponent);
         int choice;
+        int numTurns = attackSpeed / opponent.getAttackSpeed();
+
+        if (numTurns == 0) {
+            numTurns++;
+        }
+
+        System.out.println("Number of turns this round is: " + numTurns);
 
         do {
             System.out.println("1. Attack Opponent");

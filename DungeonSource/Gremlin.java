@@ -1,19 +1,23 @@
-
 /**
  * Concrete Gremlin class that holds represents a gremlin Monster
  *
  * @author Original Authors
  * @author Tyler Rose
  */
-public class Gremlin extends Monster {
+public class Gremlin extends DungeonCharacter {
 
+    protected double chanceToHeal;
+    protected int minHeal, maxHeal;
     /**
      * Default constructor for a gremlin object, calls superclass to initiate
      * values
      */
     public Gremlin() {
-        super("Gnarltooth the Gremlin", 70, 5, .8, .4, 15, 30, 20, 40);
-
+        super("Gnarltooth the Gremlin", 70, 5, .8, 15, 30);
+        
+        this.chanceToHeal = .4;
+        this.minHeal = 20;
+        this.maxHeal = 40;
     }
 
     /**
@@ -28,4 +32,16 @@ public class Gremlin extends Monster {
         super.attack(opponent);
 
     }
+    
+    /**
+     * Subtract hitpoints from the monster, then attempts a heal
+     *
+     * @param hitPoints the number of hitpoints to subtract
+     */
+    public void subtractHitPoints(int hitPoints) {
+        super.subtractHitPoints(hitPoints);
+        super.heal(chanceToHeal, minHeal, maxHeal);
+    }
+    
+    public void battleChoices(DungeonCharacter opponent) {}
 }
