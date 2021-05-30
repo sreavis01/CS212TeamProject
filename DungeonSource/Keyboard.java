@@ -6,7 +6,7 @@ import java.util.*;
  * conversions, and exception handling.
  *
  * @author Original Authors: Lewis and Loftus
- * @author Tyler Rose
+ * @author Tyler Rose, Sarah Reavis 
  */
 public  class Keyboard {
 
@@ -19,10 +19,14 @@ public  class Keyboard {
      */
     public  static String readString() {
         String str = "\n";
-        while (str.equals("\n") || str.equals("")) {
+        
+        //if the string is empty, \n, or just blank spaces, we will wait for a new line
+        while (str.isBlank() || str.isEmpty()) {
             str = scan.nextLine();
         }
-        return str;
+        
+        //remove leading and trailing blank spaces and return
+        return str.trim();
     }
 
     /**
@@ -49,12 +53,32 @@ public  class Keyboard {
      * @return char the character read from standard input
      */
     public static char readChar() {
-        char character;
-        try {
-            character = scan.next().toCharArray()[0];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new ArrayIndexOutOfBoundsException("The input did not contain any character");
-        }
+        char character=0;
+        boolean error = false;
+        
+        //check if the input is valid, if it's not an acceptable char then we reprompt user
+        do {
+        	
+        	 try {
+                 character = scan.next().toCharArray()[0];
+                 
+            	 //invalid input
+            	 if(!(Character.toString(character).equalsIgnoreCase("Y")) && 
+                  	!(Character.toString(character).equalsIgnoreCase("N")) &&
+                	!(Character.toString(character).equalsIgnoreCase("Q"))) {
+            		 error = true;
+            		 
+            		 //print to screen error
+            		 System.out.println("Your selection, \'" + character + "\' is not valid. Please try again.");
+            		 
+            	 }else { error = false;}
+            	 
+             } catch (ArrayIndexOutOfBoundsException e) {
+                 throw new ArrayIndexOutOfBoundsException("The input did not contain any character");
+             }
+        	 
+        }while(error);
+        
         return character;
     }
 
@@ -64,7 +88,30 @@ public  class Keyboard {
      * @return int the integer read from standard input
      */
     public static int readInt() {
-        return scan.nextInt();
+    	int input=0;
+    	boolean error = false;
+    	
+    	do {
+    		try {
+    			//try to get an integer from the user
+    			input = scan.nextInt();
+    			
+    			// restrict the input to be between 1-3 inclusive
+    			if(input>3 || input <1) {error = true;}
+    			else {error = false;}
+    			
+    		}catch(InputMismatchException e) {
+    			//if the value entered is not strictly an integer we will prompt the user again
+    			System.out.println(e);
+    			error = true;
+    			scan.nextLine();
+    		}
+    		if(error) {System.out.println("Invalid input. Please try again. ");}
+    		 
+    	}while(error); 
+    	
+        return input;
+        
     }
 
     /**
